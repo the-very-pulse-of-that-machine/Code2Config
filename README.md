@@ -5,6 +5,13 @@
 **Code2Config** is a refactoring tool designed for developers who build with AI. It identifies scattered hard-coded constants, refactors them into a unified dynamic configuration interface, and deploys a local web dashboard for real-time parameter tuning.
 
 ---
+## 👁️ What the OUTPUT looks like
+
+A single-file HTML interface for live-sync parameter tuning. Modify your software's behavior visually; the tool handles the bidirectional sync to your source code automatically.
+
+![html](/asset/html.png)
+
+---
 
 ## 🚀 Quick Start
 
