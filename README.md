@@ -53,6 +53,9 @@ We believe that **tuning a system should be as intuitive as playing an instrumen
 3. **Manifestation (UI Generation)**: 
    The final dashboard isn't a template—it's a **Mirror**. The UI is dynamically constructed from the "Mental Map" of your specific project, ensuring that every slider you see has a direct, documented impact on your code.
 
+
+![arch](/asset/arch.png)
+
 ---
 
 #### Built by 91mrqiao.
