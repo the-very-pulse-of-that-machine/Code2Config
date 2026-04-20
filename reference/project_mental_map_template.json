@@ -1,0 +1,47 @@
+{
+  "project_profile": {
+    "identifier": "string (项目标识符)",
+    "domain": "string (技术领域分类)",
+    "summary": "string (核心目标/用途的通用描述)",
+    "dependencies": ["string (关键依赖库列表)"]
+  },
+  "logic_entities": [
+    {
+      "entity_path": "string (相对路径)",
+      "role_tag": "string (模块角色: Entry/Core/Logic/Util)",
+      "entity_description": "string (该文件/模块的功能解释)",
+      "interface_points": [
+        {
+          "name": "string (函数/方法名)",
+          "intent": "string (调用意图/功能说明)",
+          "associated_vars": ["string (关联的参数名)"]
+        }
+      ],
+      "tunable_nodes": [
+        {
+          "var_id": "string (变量唯一标识符)",
+          "source_line": "number (原始代码行号)",
+          "original_expression": "string (原始赋值语句)",
+          "data_type": "string (int/float/bool/string)",
+          "semantic_label": "string (面向用户的名称/标签)",
+          "functional_impact": "string (该参数如何影响程序行为的解释)",
+          "constraints": {
+            "type": "string (range/options/none)",
+            "values": "any (数值范围或选项列表)",
+            "default": "any (默认值)"
+          }
+        }
+      ]
+    }
+  ],
+  "execution_flow": {
+    "entry_command": "string (启动该项目的命令模板)",
+    "data_pipeline": [
+      {
+        "from": "string (上游模块/输入)",
+        "to": "string (下游模块/处理)",
+        "description": "string (数据流转的简要说明)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Code2Config 控制面板</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card { background: #1e1e1e; border: 1px solid #333; }
+        body { background: #121212; color: #e0e0e0; }
+    </style>
+</head>
+<body class="p-8">
+    <div id="app" class="max-w-4xl mx-auto">
+        <header class="mb-8 border-b border-gray-700 pb-4">
+            <h1 class="text-3xl font-bold text-blue-400">Code2Config Controller</h1>
+            <p class="text-gray-400">调整参数后请重启程序以查看效果</p>
+        </header>
+
+        <div v-for="map in data.maps" :key="map.project_profile.identifier">
+            <div v-for="entity in map.logic_entities" :key="entity.entity_path" class="mb-10">
+                <h2 class="text-xl font-semibold mb-4 flex items-center">
+                    <span class="px-2 py-1 rounded text-xs mr-2" 
+                          :class="entity.role_tag === 'Core' ? 'bg-red-900 text-red-200' : 'bg-green-900 text-green-200'">
+                        {{ entity.role_tag }}
+                    </span>
+                    {{ entity.entity_path.split('/').pop() }}
+                </h2>
+
+                <div class="grid grid-cols-1 gap-4">
+                    <div v-for="node in entity.tunable_nodes" :key="node.var_id" class="card p-4 rounded-lg shadow-lg">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <label class="block font-medium text-blue-300">{{ node.semantic_label }}</label>
+                                <p class="text-xs text-gray-500 italic">{{ node.var_id }}</p>
+                            </div>
+                            <span class="text-xs font-mono bg-gray-800 px-2 py-1 rounded">{{ data.settings[node.var_id] }}</span>
+                        </div>
+                        
+                        <p class="text-sm text-gray-400 mb-4">{{ node.functional_impact }}</p>
+
+                        <div v-if="node.constraints.type === 'range'">
+                            <input type="range" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                                   :min="node.constraints.values[0]" :max="node.constraints.values[1]" :step="node.data_type === 'int' ? 1 : 0.1"
+                                   v-model="data.settings[node.var_id]" @change="updateValue(node.var_id, data.settings[node.var_id])">
+                        </div>
+
+                        <div v-else-if="node.constraints.type === 'options'">
+                            <select class="bg-gray-800 border border-gray-600 text-sm rounded-lg block w-full p-2.5"
+                                    v-model="data.settings[node.var_id]" @change="updateValue(node.var_id, data.settings[node.var_id])">
+                                <option v-for="opt in node.constraints.values" :key="opt" :value="opt">{{ opt }}</option>
+                            </select>
+                        </div>
+
+                        <div v-else-if="node.data_type === 'bool'">
+                            <button @click="toggleBool(node.var_id)" 
+                                    :class="data.settings[node.var_id] ? 'bg-blue-600' : 'bg-gray-600'"
+                                    class="px-4 py-1 rounded text-sm font-bold transition-colors">
+                                {{ data.settings[node.var_id] ? 'ON' : 'OFF' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: { data: { maps: [], settings: {} } },
+            mounted() { this.fetchData(); },
+            methods: {
+                fetchData() {
+                    fetch('/api/data').then(r => r.json()).then(d => { this.data = d; });
+                },
+                updateValue(id, val) {
+                    fetch('/api/update', {
+                        method: 'POST',
+                        body: JSON.stringify({ var_id: id, value: isNaN(val) ? val : Number(val) })
+                    });
+                },
+                toggleBool(id) {
+                    this.data.settings[id] = !this.data.settings[id];
+                    this.updateValue(id, this.data.settings[id]);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
