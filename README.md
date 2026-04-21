@@ -57,5 +57,21 @@ We believe that **tuning a system should be as intuitive as playing an instrumen
 ![arch](/asset/arch.png)
 
 ---
+## 📝 TODO / Roadmap
 
+### 🟢 Phase 1: Core Enhancement (Stability)
+- [ ] **Multi-Language Hooks**: Expand the refactoring engine to support C++ (Header-only) and JavaScript parameter injection.
+- [ ] **Enhanced Syntax Validation**: Automatically run static analysis tools (e.g., `ruff` or `flake8`) post-injection to ensure original code style remains intact.
+- [ ] **Automatic Type Inference**: Use type hints to automatically assign precise Web UI controls (e.g., `bool` to toggles, `int` to integer steppers).
+
+### 🟡 Phase 2: User Experience (The "Intuitive" Part)
+- [ ] **UI Layout Editor**: Allow users to custom group or reorder parameters via a drag-and-drop interface on the web dashboard.
+- [ ] **Preset System**: Save current parameter states as "Snapshots," enabling one-click switching between different experimental configurations.
+- [ ] **Mobile Optimization**: Optimize the interface for touch, enabling remote parameter control via smartphones or tablets.
+
+### 🔴 Phase 3: AI Intelligence (Advanced)
+- [ ] **Self-Tuning Suggestions**: Implement a feedback loop where AI suggests optimal parameter ranges based on program output.
+- [ ] **Natural Language Search**: Add a search bar that supports descriptive queries (e.g., typing *"Make it faster"* automatically locates the `MAX_SPEED` slider).
+- [ ] **One-Click Revert**: Add a safety command to automatically remove injected hooks and revert the project to its original hard-coded state.
+---
 #### Built by 91mrqiao.
