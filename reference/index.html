@@ -40,9 +40,21 @@
                         <p class="text-sm text-gray-400 mb-4">{{ node.functional_impact }}</p>
 
                         <div v-if="node.constraints.type === 'range'">
-                            <input type="range" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                                   :min="node.constraints.values[0]" :max="node.constraints.values[1]" :step="node.data_type === 'int' ? 1 : 0.1"
-                                   v-model="data.settings[node.var_id]" @change="updateValue(node.var_id, data.settings[node.var_id])">
+                            <div class="flex items-center space-x-4">
+                                <input type="range" class="flex-grow h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                    :min="node.constraints.values[0]" 
+                                    :max="node.constraints.values[1]" 
+                                    :step="node.data_type === 'int' ? 1 : 0.01"
+                                    v-model.number="data.settings[node.var_id]" 
+                                    @input="updateValue(node.var_id, data.settings[node.var_id])">
+                                
+                                <input type="number" class="w-20 bg-gray-800 border border-gray-600 text-blue-300 text-right px-2 py-1 rounded-md text-sm font-mono focus:border-blue-500 outline-none"
+                                    :min="node.constraints.values[0]" 
+                                    :max="node.constraints.values[1]" 
+                                    :step="node.data_type === 'int' ? 1 : 0.1"
+                                    v-model.number="data.settings[node.var_id]" 
+                                    @change="updateValue(node.var_id, data.settings[node.var_id])">
+                            </div>
                         </div>
 
                         <div v-else-if="node.constraints.type === 'options'">
@@ -58,6 +70,21 @@
                                     class="px-4 py-1 rounded text-sm font-bold transition-colors">
                                 {{ data.settings[node.var_id] ? 'ON' : 'OFF' }}
                             </button>
+                        </div>
+
+                        <div v-else>
+                            <div class="relative">
+                                <input type="text" 
+                                    class="w-full bg-gray-800 border border-gray-600 text-gray-200 px-3 py-2 rounded-lg text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                    v-model="data.settings[node.var_id]"
+                                    @change="updateValue(node.var_id, data.settings[node.var_id])"
+                                    placeholder="Enter text value...">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                    <svg class="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
